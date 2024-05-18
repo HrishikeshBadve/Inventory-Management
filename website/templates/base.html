@@ -13,6 +13,47 @@
         --text-color: #333;
         --font-family: 'Open Sans', sans-serif;
       }
+
+      .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .search-form {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      .search-input {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .search-button, .reset-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #5b6c5d; 
+        color: #f4b942;
+        margin-left: 5px; 
+      }
+
+      .search-button:hover, .reset-button:hover {
+        background-color: black;
+      }
+
+      .search-message {
+        margin: 20px;
+        font-size: 18px;
+      }
+
+      .search-button-text {
+        text-decoration: underline;
+      }
       
       body {
         font-family: var(--font-family);
@@ -42,16 +83,19 @@
   </head>
   <body>
     {% include 'navbar.html' %}
-    <div class="container">
-      <br/>
       {% if messages %}
+      <div class="container mt-3">
         {% for message in messages %}
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         {% endfor %}
-      {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="container">
+      <br/>
       {% block content %}
       {% endblock %}
     </div>

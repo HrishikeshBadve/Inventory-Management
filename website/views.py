@@ -9,9 +9,10 @@ from django.db.models import IntegerField
 def home(request):
 	# Display records logic
 	records = Record.objects.all()
+	records = Record.objects.annotate(quant_int=Cast('quant', IntegerField()))
+
 	query = request.GET.get('q')
 	sort_by = request.GET.get('sort', 'id')  # Default sort by 'id'
-	message = ""
 
 	if query:
 		records = records.filter(name__icontains=query)
@@ -38,7 +39,15 @@ def home(request):
 		else:
 			messages.error(request, "Error Logging In...")
 
+	# Low stock alert logic
+	if request.user.is_authenticated:
+		low_stock_items = records.filter(quant_int__lte=5)
+		if low_stock_items.exists():
+			messages.warning(request, "Some items are low in stock. Please restock them soon.")
+
 	return render(request, 'home.html', {'records': records, 'message': message, 'query': query})
+
+
 
 
 def logout_user(request):
