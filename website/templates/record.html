@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <strong>{{ item_record.name }} </strong>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+		<strong>ID: </strong>{{ item_record.id }}</p>
+	<p class="card-text">
+		<strong>Serial Number: </strong>{{ item_record.serial_num }} </p>
+	<p class="card-text">
+		<strong>Name: </strong>{{ item_record.name }} </p>
+	<p class="card-text">
+		<strong>Description: </strong>{{ item_record.desc }} </p>
+	<p class="card-text">
+		<strong>Quantity: </strong>{{ item_record.quant }} </p>
+	<p class="card-text">
+		<strong>Location: </strong>{{ item_record.location }} </p>
+	<p class="card-text">
+		<strong>Created At: </strong>{{ item_record.created_at }} </p>
+  </div>
+</div>
+
+			
+<br/><br/>
+<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+<a href="{% url 'delete_record' item_record.id %}" class="btn btn-danger">Delete</a>
+
+{% endblock %}
