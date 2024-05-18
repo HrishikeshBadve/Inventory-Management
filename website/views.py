@@ -3,10 +3,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddRecordForm
 from.models import Record
+from django.db.models import Q
 
 
 def home(request):
 	records = Record.objects.all()
+
+	query = request.GET.get('q')
+	message = ""
+	if query:
+		records = records.filter(name__icontains=query)
+		message = f"Showing results for '{query}'"
+	else:
+		message = "Showing all records"
+
+	return render(request, 'home.html', {'records': records, 'message': message})
 
 	# Check to see if logged in
 	if request.method == 'POST':
