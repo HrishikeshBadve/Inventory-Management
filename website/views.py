@@ -4,12 +4,16 @@ from django.contrib import messages
 from .forms import SignUpForm, AddRecordForm
 from.models import Record
 from django.db.models import Q
+from django.db.models.functions import Cast
+from django.db.models import IntegerField
 
 
 def home(request):
 	records = Record.objects.all()
 
 	query = request.GET.get('q')
+	sort_by = request.GET.get('sort', 'id')  # Default sort by 'id'
+
 	message = ""
 	if query:
 		records = records.filter(name__icontains=query)
@@ -17,7 +21,15 @@ def home(request):
 	else:
 		message = "Showing all records"
 
-	return render(request, 'home.html', {'records': records, 'message': message})
+	# If sorting by 'serial_num' or 'quant', cast the field to an integer
+		if sort_by == 'quant':
+			records = records.annotate(quant_int=Cast('quant', IntegerField())).order_by('quant_int')
+		elif sort_by == 'serial_num':
+			records = records.annotate(serial_num_int=Cast('serial_num', IntegerField())).order_by('serial_num_int')
+		else:
+			records = records.order_by(sort_by)
+
+	return render(request, 'home.html', {'records': records, 'message': message, 'query': query})
 
 	# Check to see if logged in
 	if request.method == 'POST':
