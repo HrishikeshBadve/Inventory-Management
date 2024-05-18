@@ -2,17 +2,17 @@
 {% block content %}
 
 <div class="col-md-6 offset-md-3">
-<h1>Add Record</h1>
-<br/>
+  <h1 style="color: var(--primary-color);">Add Record</h1>
+  <br/>
 
-<form method="POST" action="{% url 'add_record' %}">
-	{% csrf_token %}
-
-	{{ form.as_p }}
-
-<button type="submit" class="btn btn-secondary">Add Record</button>
-<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
-
-</form>
+  <form method="POST" action="{% url 'add_record' %}" style="background-color: var(--secondary-color); padding: 20px; border-radius: 8px;">
+    {% csrf_token %}
+    <div style="margin-bottom: 1rem;">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-color);">Add Record</button>
+    <a href="{% url 'home' %}" class="btn" style="background-color: var(--text-color); color: var(--secondary-color);">Back</a>
+  </form>
 </div>
+
 {% endblock %}
